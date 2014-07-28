@@ -1,75 +1,58 @@
-
 package com.smarthi.sample.rest;
 
-import com.sun.grizzly.http.SelectorThread;
-import com.sun.jersey.api.client.GenericType;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.json.JSONConfiguration;
-import com.sun.jersey.core.header.MediaTypes;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
-import junit.framework.TestCase;
-
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+
+import org.glassfish.grizzly.http.server.HttpServer;
+
+import org.glassfish.jersey.moxy.json.MoxyJsonFeature;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 
-public class MainTest extends TestCase {
+public class MainTest {
 
-  private SelectorThread threadSelector;
+  private HttpServer server;
+  private WebTarget target;
 
-  private WebResource webResource;
-
-  public MainTest(String testName) {
-    super(testName);
+  @Before
+  public void setUp() throws Exception {
+    // start the server
+    server = Main.startServer();
+    // create the client
+    Client c = ClientBuilder.newClient().register(MoxyJsonFeature.class);
+    target = c.target(Main.BASE_URI);
   }
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-
-    threadSelector = Main.startServer();
-
-    ClientConfig clientConfig = new DefaultClientConfig();
-    clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-    Client c = Client.create(clientConfig);
-
-    webResource = c.resource(Main.BASE_URI);
+  @After
+  public void tearDown() throws Exception {
+    server.shutdown();
   }
 
-  @Override
-  protected void tearDown() throws Exception {
-    super.tearDown();
-
-    threadSelector.stopEndpoint();
-  }
-
+  @Test
   public void testMyResource() {
-    Sample responseMsg = webResource.path("myresource/sample").accept(MediaType.APPLICATION_JSON_TYPE).get(Sample.class);
+    Sample responseMsg = target.path("myresource/sample").request().accept(MediaType.APPLICATION_JSON_TYPE).get(Sample.class);
     assertEquals(responseMsg.getName(), "Suneel");
   }
 
+  @Test
   public void testSamplesList() {
     GenericType<List<Sample>> list = new GenericType<List<Sample>>() {
     };
-    List<Sample> sampleList = webResource.path("myresource/sampleList").accept(MediaType.APPLICATION_JSON_TYPE).get(list);
+    List<Sample> sampleList = target.path("myresource/sampleList").request().accept(MediaType.APPLICATION_JSON_TYPE).get(list);
     assertEquals(sampleList.size(), 2);
   }
 
+  @Test
   public void testSayHello() {
-    String responseMsg = webResource.path("myresource/hello").get(String.class);
+    String responseMsg = target.path("myresource/hello").request().get(String.class);
     assertEquals("Hello", responseMsg);
-  }
-
-  /**
-   * Test if a WADL document is available at the relative path
-   * "application.wadl".
-   */
-  public void testApplicationWadl() {
-    String serviceWadl = webResource.path("application.wadl").
-        accept(MediaTypes.WADL).get(String.class);
-
-    assertTrue(serviceWadl.length() > 0);
   }
 }

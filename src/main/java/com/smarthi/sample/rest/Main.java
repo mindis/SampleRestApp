@@ -1,35 +1,48 @@
 package com.smarthi.sample.rest;
 
-import com.sun.grizzly.http.SelectorThread;
-import com.sun.jersey.api.container.grizzly.GrizzlyWebContainerFactory;
+import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.moxy.json.MoxyJsonFeature;
+import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
-import javax.ws.rs.core.UriBuilder;
 
+/**
+ * Main class.
+ */
 public class Main {
+  // Base URI the Grizzly HTTP server will listen on
+  public static final String BASE_URI = "http://localhost:8080/";
 
-  public static final URI BASE_URI = UriBuilder.fromUri("http://localhost/").port(9998).build();
+  /**
+   * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
+   *
+   * @return Grizzly HTTP server.
+   */
+  public static HttpServer startServer() {
+    // create a resource config that scans for JAX-RS resources and providers
+    // in com.smarthi.sample.rest package
+    final ResourceConfig rc = new ResourceConfig().packages("com.smarthi.sample.rest");
+    rc.register(MoxyJsonFeature.class);
 
-  protected static SelectorThread startServer() throws IOException {
-    final Map<String, String> initParams = new HashMap<>();
-
-    initParams.put("com.sun.jersey.config.property.packages",
-        "com.smarthi.sample.rest");
-    initParams.put("com.sun.jersey.api.json.POJOMappingFeature", "true");
-
-    System.out.println("Starting grizzly...");
-    return GrizzlyWebContainerFactory.create(BASE_URI, initParams);
+    // create and start a new instance of grizzly http server
+    // exposing the Jersey application at BASE_URI
+    return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
   }
 
+  /**
+   * Main method.
+   *
+   * @param args - args
+   * @throws IOException
+   */
   public static void main(String[] args) throws IOException {
-    SelectorThread threadSelector = startServer();
+    final HttpServer server = startServer();
     System.out.println(String.format("Jersey app started with WADL available at "
-            + "%sapplication.wadl\nHit enter to stop it...",
-        BASE_URI));
+        + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
     System.in.read();
-    threadSelector.stopEndpoint();
+    server.shutdown();
   }
 }
+
