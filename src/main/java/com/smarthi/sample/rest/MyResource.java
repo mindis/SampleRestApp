@@ -1,4 +1,3 @@
-
 package com.smarthi.sample.rest;
 
 import javax.ws.rs.GET;
@@ -12,13 +11,13 @@ import java.util.List;
 @Path("/myresource")
 public class MyResource {
 
-    @GET
-    @Path("/sample")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Sample getIt() {
+  @GET
+  @Path("/sample")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Sample getIt() {
 
-      return new Sample("Suneel", "Dulles", "VA");
-    }
+    return new Sample("Suneel", "Dulles", "VA");
+  }
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)

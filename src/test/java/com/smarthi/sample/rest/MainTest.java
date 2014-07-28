@@ -19,7 +19,7 @@ public class MainTest extends TestCase {
 
   private SelectorThread threadSelector;
 
-  private WebResource r;
+  private WebResource webResource;
 
   public MainTest(String testName) {
     super(testName);
@@ -35,7 +35,7 @@ public class MainTest extends TestCase {
     clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
     Client c = Client.create(clientConfig);
 
-    r = c.resource(Main.BASE_URI);
+    webResource = c.resource(Main.BASE_URI);
   }
 
   @Override
@@ -46,19 +46,19 @@ public class MainTest extends TestCase {
   }
 
   public void testMyResource() {
-    Sample responseMsg = r.path("myresource/sample").accept(MediaType.APPLICATION_JSON_TYPE).get(Sample.class);
+    Sample responseMsg = webResource.path("myresource/sample").accept(MediaType.APPLICATION_JSON_TYPE).get(Sample.class);
     assertEquals(responseMsg.getName(), "Suneel");
   }
 
   public void testSamplesList() {
     GenericType<List<Sample>> list = new GenericType<List<Sample>>() {
     };
-    List<Sample> sampleList = r.path("myresource/sampleList").accept(MediaType.APPLICATION_JSON_TYPE).get(list);
+    List<Sample> sampleList = webResource.path("myresource/sampleList").accept(MediaType.APPLICATION_JSON_TYPE).get(list);
     assertEquals(sampleList.size(), 2);
   }
 
   public void testSayHello() {
-    String responseMsg = r.path("myresource/hello").get(String.class);
+    String responseMsg = webResource.path("myresource/hello").get(String.class);
     assertEquals("Hello", responseMsg);
   }
 
@@ -67,7 +67,7 @@ public class MainTest extends TestCase {
    * "application.wadl".
    */
   public void testApplicationWadl() {
-    String serviceWadl = r.path("application.wadl").
+    String serviceWadl = webResource.path("application.wadl").
         accept(MediaTypes.WADL).get(String.class);
 
     assertTrue(serviceWadl.length() > 0);
