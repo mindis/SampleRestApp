@@ -14,7 +14,7 @@ public class Main {
   public static final URI BASE_URI = UriBuilder.fromUri("http://localhost/").port(9998).build();
 
   protected static SelectorThread startServer() throws IOException {
-    final Map<String, String> initParams = new HashMap<String, String>();
+    final Map<String, String> initParams = new HashMap<>();
 
     initParams.put("com.sun.jersey.config.property.packages",
         "com.smarthi.sample.rest");
