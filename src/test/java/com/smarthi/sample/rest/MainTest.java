@@ -8,7 +8,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.glassfish.grizzly.http.server.HttpServer;
 
-import org.glassfish.jersey.moxy.json.MoxyJsonFeature;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +26,7 @@ public class MainTest {
     // start the server
     server = Main.startServer();
     // create the client
-    Client c = ClientBuilder.newClient().register(MoxyJsonFeature.class);
+    Client c = ClientBuilder.newClient();
     target = c.target(Main.BASE_URI);
   }
 
