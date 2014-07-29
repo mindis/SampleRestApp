@@ -3,11 +3,11 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>SampleRestApp2</groupId>
-    <artifactId>SampleRestApp2</artifactId>
+    <groupId>SampleRestApp</groupId>
+    <artifactId>SampleRestApp</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>SampleRestApp2</name>
+    <name>SampleRestApp</name>
 
     <dependencyManagement>
         <dependencies>
