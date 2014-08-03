@@ -2,9 +2,11 @@ package com.smarthi.sample.rest;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.glassfish.grizzly.http.server.HttpServer;
 
@@ -36,8 +38,17 @@ public class MainTest {
   }
 
   @Test
+  public void testCreate() {
+    Sample sample = new Sample("Suneel", "Dulles", "VA");
+    Entity<Sample> entity = Entity.entity(sample, MediaType.APPLICATION_JSON_TYPE);
+    Response response = target.path("myresource").request().post(entity);
+    assertEquals(200, response.getStatus());
+  }
+
+  @Test
   public void testMyResource() {
-    Sample responseMsg = target.path("myresource/sample").request().accept(MediaType.APPLICATION_JSON_TYPE).get(Sample.class);
+    GenericType<Sample> sample = new GenericType<Sample>() { };
+    Sample responseMsg = target.path("myresource/sample").path("Suneel").request().accept(MediaType.APPLICATION_JSON_TYPE).get(sample);
     assertEquals(responseMsg.getName(), "Suneel");
   }
 
@@ -46,7 +57,7 @@ public class MainTest {
     GenericType<List<Sample>> list = new GenericType<List<Sample>>() {
     };
     List<Sample> sampleList = target.path("myresource/sampleList").request().accept(MediaType.APPLICATION_JSON_TYPE).get(list);
-    assertEquals(sampleList.size(), 2);
+    assertEquals(1, sampleList.size());
   }
 
   @Test
@@ -54,4 +65,5 @@ public class MainTest {
     String responseMsg = target.path("myresource/hello").request().get(String.class);
     assertEquals("Hello", responseMsg);
   }
+
 }
