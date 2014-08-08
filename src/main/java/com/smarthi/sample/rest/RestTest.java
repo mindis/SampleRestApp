@@ -78,11 +78,6 @@ public class RestTest {
       this.executorService.invokeAll(responseList);
       long stopTime = System.nanoTime();
       System.out.println("Fetch time = " + (stopTime - startTime) / 1.0e6 + "\n");
-
-//      this.executorService.shutdown();
-//      if (!this.executorService.awaitTermination(60, TimeUnit.SECONDS)) {
-//        System.out.println("Threadpool timed out on await termination");
-//      }
     } catch (InterruptedException e) {
       // do nothing
     }
