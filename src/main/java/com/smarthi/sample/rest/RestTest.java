@@ -52,7 +52,7 @@ public class RestTest {
       long startTime = System.nanoTime();
       this.executorService.invokeAll(responseList);
       long stopTime = System.nanoTime();
-      System.out.println((stopTime - startTime) / 1.0e6);
+      System.out.println("Create Samples time = " + (stopTime - startTime) / 1.0e6);
 
       this.executorService.shutdown();
       if (!this.executorService.awaitTermination(60, TimeUnit.SECONDS)) {
@@ -70,7 +70,7 @@ public class RestTest {
     List<Sample> sampleList = target.path("myresource/sampleList").request().accept(MediaType.APPLICATION_JSON_TYPE).get(list);
     System.out.println(sampleList.toString());
     long stopTime = System.nanoTime();
-    System.out.println((stopTime - startTime) / 1.0e6);
+    System.out.println("Fetch all samples time = " + (stopTime - startTime) / 1.0e6);
   }
 
   public void testGet() {
@@ -78,15 +78,15 @@ public class RestTest {
     Sample responseMsg = target.path("myresource/sample").path("6").request().accept(MediaType.APPLICATION_JSON_TYPE).get(sample);
     System.out.println(responseMsg.toString());
     long stopTime = System.nanoTime();
-    System.out.println((stopTime - startTime) / 1.0e6);
+    System.out.println("Fetch time = " + (stopTime - startTime) / 1.0e6);
   }
 
   public void testDelete() {
     long startTime = System.nanoTime();
     Response responseMsg = target.path("myresource/sample").path("5").request().accept(MediaType.APPLICATION_JSON_TYPE).delete();
-    System.out.println(responseMsg.toString());
+    System.out.println(responseMsg.getStatus());
     long stopTime = System.nanoTime();
-    System.out.println((stopTime - startTime) / 1.0e6);
+    System.out.println("Delete time = " + (stopTime - startTime) / 1.0e6);
   }
 
   public void stop() {
