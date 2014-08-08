@@ -44,7 +44,6 @@ public class MainTest {
     System.out.println("Start Time: " + startTime);
     Entity<Sample> entity = Entity.entity(sample, MediaType.APPLICATION_JSON_TYPE);
 
-
     Response response = target.path("myresource").request().post(entity);
     long stopTime = System.currentTimeMillis();
     System.out.println("Stop time: " + stopTime);
@@ -74,7 +73,7 @@ public class MainTest {
     long stopTime = System.currentTimeMillis();
     System.out.println("Stop time: " + stopTime);
     System.out.println((stopTime - startTime));
-    assertEquals(10, sampleList.size());
+    assertEquals(1, sampleList.size());
   }
 
   @Test
