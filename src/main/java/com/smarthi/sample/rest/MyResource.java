@@ -1,6 +1,7 @@
 package com.smarthi.sample.rest;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -11,7 +12,6 @@ import javax.ws.rs.core.Response;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 // The Java class will be hosted at the URI path "/myresource"
 @Path("/myresource")
@@ -35,7 +35,7 @@ public class MyResource {
 
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.TEXT_PLAIN)
+  @Produces(MediaType.APPLICATION_JSON)
   public Response createSample(final Sample aSample) {
     sampleMap.put(aSample.getName(), aSample);
     return Response.ok().build();
@@ -46,5 +46,14 @@ public class MyResource {
   @Path("/hello")
   public String sayHello() {
     return "Hello";
+  }
+
+  @DELETE
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/sample/{id}")
+  public Response removeSample(@PathParam("id") int id) {
+    sampleMap.remove(id);
+    System.out.println(sampleMap.toString());
+    return Response.ok().build();
   }
 }
