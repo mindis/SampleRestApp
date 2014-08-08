@@ -12,12 +12,13 @@ import javax.ws.rs.core.Response;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 // The Java class will be hosted at the URI path "/myresource"
 @Path("/myresource")
 public class MyResource {
 
-  private static Map<Integer, Sample> sampleMap = new HashMap<>();
+  private static Map<Integer, Sample> sampleMap = new ConcurrentHashMap<>();
 
   @GET
   @Path("/sample/{id}")

@@ -20,7 +20,7 @@ public class ResponsePostCallable implements Callable<Response> {
   public Response call() throws Exception {
     Entity<Sample> entity = Entity.entity(sample, MediaType.APPLICATION_JSON_TYPE);
     Response response = webTarget.path("myresource").request().post(entity);
-    System.out.println("Response from create  = " + response.getStatusInfo().getStatusCode());
+//    System.out.println("Response from create  = " + response.getStatusInfo().getStatusCode());
     return response;
   }
 }

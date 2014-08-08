@@ -44,7 +44,7 @@ public class RestTest {
 
   public void testPost() {
     List<ResponsePostCallable> responseList = new ArrayList<>();
-    for (int i = 0; i < MAX_THREADS_IN_POOL; i++) {
+    for (int i = 0; i < 10000; i++) {
       responseList.add(new ResponsePostCallable(target, new Sample(i, "Suneel " + i, "Delhi")));
     }
     try {
@@ -69,7 +69,7 @@ public class RestTest {
 
   public void testGet() {
     List<ResponseGetCallable> responseList = new ArrayList<>();
-    for (int i = 0; i < MAX_THREADS_IN_POOL; i++) {
+    for (int i = 0; i < 10000; i++) {
       responseList.add(new ResponseGetCallable(target, getRandom()));
     }
 
