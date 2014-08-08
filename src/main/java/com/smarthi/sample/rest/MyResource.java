@@ -8,24 +8,21 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 // The Java class will be hosted at the URI path "/myresource"
 @Path("/myresource")
 public class MyResource {
 
-  private static Map<String, Sample> sampleMap = new HashMap<>();
+  private static Map<Integer, Sample> sampleMap = new HashMap<>();
 
   @GET
   @Path("/sample/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public Sample getIt(@PathParam("id") String id) {
+  public Sample getIt(@PathParam("id") int id) {
     return sampleMap.get(id);
   }
 
@@ -38,6 +35,7 @@ public class MyResource {
 
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.TEXT_PLAIN)
   public Response createSample(final Sample aSample) {
     sampleMap.put(aSample.getName(), aSample);
     return Response.ok().build();

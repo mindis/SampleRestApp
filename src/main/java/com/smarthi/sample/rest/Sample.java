@@ -2,25 +2,25 @@ package com.smarthi.sample.rest;
 
 public class Sample {
 
-  private String name;
+  private int number;
   private String city;
   private String state;
 
   public Sample() {
   }
 
-  public Sample(String name, String city, String state) {
-    this.name = name;
+  public Sample(int number, String city, String state) {
+    this.number = number;
     this.city = city;
     this.state = state;
   }
 
-  public String getName() {
-    return name;
+  public int getName() {
+    return number;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setName(int name) {
+    this.number = name;
   }
 
   public String getCity() {
@@ -42,7 +42,7 @@ public class Sample {
   @Override
   public String toString() {
     return "Sample{" +
-        "name='" + name + '\'' +
+        "number='" + number + '\'' +
         ", city='" + city + '\'' +
         ", state='" + state + '\'' +
         '}';

@@ -39,25 +39,42 @@ public class MainTest {
 
   @Test
   public void testCreate() {
-    Sample sample = new Sample("Suneel", "Dulles", "VA");
+    Sample sample = new Sample(1, "Dulles", "VA");
+    long startTime = System.currentTimeMillis();
+    System.out.println("Start Time: " + startTime);
     Entity<Sample> entity = Entity.entity(sample, MediaType.APPLICATION_JSON_TYPE);
+
+
     Response response = target.path("myresource").request().post(entity);
+    long stopTime = System.currentTimeMillis();
+    System.out.println("Stop time: " + stopTime);
+    System.out.println((stopTime - startTime));
     assertEquals(200, response.getStatus());
   }
 
   @Test
   public void testMyResource() {
     GenericType<Sample> sample = new GenericType<Sample>() { };
-    Sample responseMsg = target.path("myresource/sample").path("Suneel").request().accept(MediaType.APPLICATION_JSON_TYPE).get(sample);
-    assertEquals(responseMsg.getName(), "Suneel");
+    long startTime = System.currentTimeMillis();
+    System.out.println("Start Time: " + startTime);
+    Sample responseMsg = target.path("myresource/sample").path("1").request().accept(MediaType.APPLICATION_JSON_TYPE).get(sample);
+    long stopTime = System.currentTimeMillis();
+    System.out.println("Stop time: " + stopTime);
+    System.out.println((stopTime - startTime));
+    assertEquals(responseMsg.getName(), 1);
   }
 
   @Test
   public void testSamplesList() {
     GenericType<List<Sample>> list = new GenericType<List<Sample>>() {
     };
+    long startTime = System.currentTimeMillis();
+    System.out.println("Start Time: " + startTime);
     List<Sample> sampleList = target.path("myresource/sampleList").request().accept(MediaType.APPLICATION_JSON_TYPE).get(list);
-    assertEquals(1, sampleList.size());
+    long stopTime = System.currentTimeMillis();
+    System.out.println("Stop time: " + stopTime);
+    System.out.println((stopTime - startTime));
+    assertEquals(10, sampleList.size());
   }
 
   @Test
