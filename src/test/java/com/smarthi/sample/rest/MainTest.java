@@ -76,6 +76,14 @@ public class MainTest {
     assertEquals(1, sampleList.size());
   }
 
+	@Test
+	public void testTest() {
+		GenericType<List<Integer>> col = new GenericType<List<Integer>>() {};
+		List<Integer> list = target.path("myresource/test").request().accept(MediaType.APPLICATION_JSON_TYPE).get(col);
+		System.out.println(list);
+		assertEquals(3, list.size());
+	}
+
   @Test
   public void testSayHello() {
     String responseMsg = target.path("myresource/hello").request().get(String.class);
