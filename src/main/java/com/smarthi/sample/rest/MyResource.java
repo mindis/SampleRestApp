@@ -9,23 +9,17 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.carrotsearch.hppc.IntCollection;
 import com.carrotsearch.hppc.IntObjectMap;
 import com.carrotsearch.hppc.IntObjectOpenHashMap;
 import com.carrotsearch.hppc.cursors.IntCursor;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Iterators;
 
 // The Java class will be hosted at the URI path "/myresource"
 @Path("/myresource")
@@ -74,17 +68,13 @@ public class MyResource {
 		X.put(2, "Holy Mackerel");
 		X.put(3, "Holy Cow");
 
-		final Iterator<Integer> transformed = Iterators.transform(X.keys().iterator(),
-				new Function<IntCursor, Integer>() {
-					@Override
-					public Integer apply(IntCursor input) {
-						return input.value;
-					}
-				});
-//		List<Integer> list = new ArrayList<>();
-//		Iterators.addAll(list, transformed);
-//		return list;
-    return Utils.iterable(transformed);
+    return Iterables.transform(X.keys(),
+        new Function<IntCursor, Integer>() {
+          @Override
+          public Integer apply(IntCursor input) {
+            return input.value;
+          }
+        });
 	}
 
 	@DELETE
@@ -95,17 +85,4 @@ public class MyResource {
 		System.out.println(sampleMap.toString());
 		return Response.ok().build();
 	}
-
-  private static class Utils {
-    public static <E> Iterable<E> iterable(final Iterator<E> iterator) {
-      if (iterator == null) {
-        throw new NullPointerException();
-      }
-      return new Iterable<E>() {
-        public Iterator<E> iterator() {
-          return iterator;
-        }
-      };
-    }
-  }
 }
