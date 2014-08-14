@@ -8,6 +8,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.google.common.collect.Iterables;
 import org.glassfish.grizzly.http.server.HttpServer;
 
 import org.junit.After;
@@ -78,10 +79,10 @@ public class MainTest {
 
 	@Test
 	public void testTest() {
-		GenericType<List<Integer>> col = new GenericType<List<Integer>>() {};
-		List<Integer> list = target.path("myresource/test").request().accept(MediaType.APPLICATION_JSON_TYPE).get(col);
+		GenericType<Iterable<Integer>> col = new GenericType<Iterable<Integer>>() {};
+		Iterable<Integer> list = target.path("myresource/test").request().accept(MediaType.APPLICATION_JSON_TYPE).get(col);
 		System.out.println(list);
-		assertEquals(3, list.size());
+		assertEquals(3, Iterables.size(list));
 	}
 
   @Test

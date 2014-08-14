@@ -24,6 +24,7 @@ import com.carrotsearch.hppc.IntObjectMap;
 import com.carrotsearch.hppc.IntObjectOpenHashMap;
 import com.carrotsearch.hppc.cursors.IntCursor;
 import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 
 // The Java class will be hosted at the URI path "/myresource"
@@ -68,7 +69,7 @@ public class MyResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/test")
-	public List<Integer> sayTest() {
+	public Iterable<Integer> sayTest() {
 		X.put(1, "Suneel");
 		X.put(2, "Holy Mackerel");
 		X.put(3, "Holy Cow");
@@ -80,9 +81,10 @@ public class MyResource {
 						return input.value;
 					}
 				});
-		List<Integer> list = new ArrayList<>();
-		Iterators.addAll(list, transformed);
-		return list;
+//		List<Integer> list = new ArrayList<>();
+//		Iterators.addAll(list, transformed);
+//		return list;
+    return Utils.iterable(transformed);
 	}
 
 	@DELETE
@@ -93,4 +95,17 @@ public class MyResource {
 		System.out.println(sampleMap.toString());
 		return Response.ok().build();
 	}
+
+  private static class Utils {
+    public static <E> Iterable<E> iterable(final Iterator<E> iterator) {
+      if (iterator == null) {
+        throw new NullPointerException();
+      }
+      return new Iterable<E>() {
+        public Iterator<E> iterator() {
+          return iterator;
+        }
+      };
+    }
+  }
 }
