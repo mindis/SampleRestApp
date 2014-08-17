@@ -93,7 +93,7 @@ public class MainTest {
 
   @Test
   public void testSomething() {
-    String response = target.path("myresource/what").path("b").queryParam("item", new String[]{"I am","A","good","boy"}).request()
+    String response = target.path("myresource/what").path("suneel").path("1/2/3").request()
         .accept(MediaType.APPLICATION_JSON_TYPE).get(String.class);
     System.out.println(response);
 

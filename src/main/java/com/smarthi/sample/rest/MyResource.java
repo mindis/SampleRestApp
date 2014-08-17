@@ -12,6 +12,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.Collection;
@@ -81,27 +82,28 @@ public class MyResource {
         });
 	}
 
-//  @GET
-//  @Produces(MediaType.APPLICATION_JSON)
-//  @Path("what/{param}/{item}/{item}")
-//  public String testSomething(@Context UriInfo uriInfo) {
-//    MultivaluedMap<String, String> multivaluedMap = uriInfo.getPathParameters();
-//    for (Map.Entry<String, List<String>> map : multivaluedMap.entrySet()) {
-//       System.out.println(map.getKey() + " " + map.getValue());
-//    }
-//    return "Hello";
-//  }
-
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("what/{param}")
-  public String testSomething(@PathParam("param") String param, @QueryParam("item") List<String> item) {
-    System.out.println("Param = " + param);
-    System.out.println("Item = " + item.size());
-    System.out.println(item);
-
+  @Path("what/{param}/{item : .+}")
+  public String testSomething(@PathParam("param") String param, @PathParam("item") List<PathSegment> segmentList) {
+    System.out.println(param);
+    for (PathSegment segment : segmentList) {
+      System.out.println(segment.getPath());
+    }
     return "Hello";
   }
+
+//  @GET
+//  @Produces(MediaType.APPLICATION_JSON)
+//  @Path("what/{userId}")
+//  public String testSomething(@PathParam("userId") String userID, @QueryParam("item") List<Integer> item) {
+//    System.out.println("Param = " + userID);
+//    System.out.println("Item = " + item.size());
+//    System.out.println(item);
+//    System.out.println(Integer.bitCount(item.get(2)));
+//
+//    return "Hello";
+//  }
 
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
