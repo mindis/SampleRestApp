@@ -8,10 +8,14 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -76,6 +80,28 @@ public class MyResource {
           }
         });
 	}
+
+//  @GET
+//  @Produces(MediaType.APPLICATION_JSON)
+//  @Path("what/{param}/{item}/{item}")
+//  public String testSomething(@Context UriInfo uriInfo) {
+//    MultivaluedMap<String, String> multivaluedMap = uriInfo.getPathParameters();
+//    for (Map.Entry<String, List<String>> map : multivaluedMap.entrySet()) {
+//       System.out.println(map.getKey() + " " + map.getValue());
+//    }
+//    return "Hello";
+//  }
+
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("what/{param}")
+  public String testSomething(@PathParam("param") String param, @QueryParam("item") List<String> item) {
+    System.out.println("Param = " + param);
+    System.out.println("Item = " + item.size());
+    System.out.println(item);
+
+    return "Hello";
+  }
 
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)

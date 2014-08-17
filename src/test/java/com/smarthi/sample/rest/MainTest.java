@@ -91,4 +91,12 @@ public class MainTest {
     assertEquals("Hello", responseMsg);
   }
 
+  @Test
+  public void testSomething() {
+    String response = target.path("myresource/what").path("b").queryParam("item", new String[]{"I am","A","good","boy"}).request()
+        .accept(MediaType.APPLICATION_JSON_TYPE).get(String.class);
+    System.out.println(response);
+
+  }
+
 }
